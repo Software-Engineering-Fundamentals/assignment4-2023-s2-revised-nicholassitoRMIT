@@ -95,11 +95,24 @@ public class LibraryCard {
      */
 
     public boolean issueBook(Book book){
+        int i = 0;
+        int numBorrowed = 0;
+        boolean sameBook = false;
+
+        while (borrowed.size() > i) {
+            if(borrowed.get(i).getID() == book.getID()) {
+                throw new IllegalBookIssueException("Issue Error: The book has already been issued on the library card.");
+            } 
+            
+            numBorrowed++;
+            i++;
+        }
+
+
     	return false;
-   
     }
 
-
+    
 
 
 }
