@@ -69,13 +69,11 @@ public class IssueBook {
         Book book1 = new Book(1, "book1", 0);
         Book book2 = new Book(1, "book1", 0);
 
-        try {
+        assertThrows(IllegalBookIssueException.class, () -> {
             if (book1.getID() == book2.getID()) {
                 throw new IllegalBookIssueException("Issue Error: The book has already been issued on the library card.");
             }
-        } catch (IllegalBookIssueException e) {
-            System.out.println(e);
-        }
+        });
     }
 
     @Test
