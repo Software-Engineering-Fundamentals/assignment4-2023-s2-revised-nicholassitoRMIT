@@ -103,6 +103,7 @@ public class LibraryCard {
         boolean borrowStatus = false;
         boolean pendingFine = false;
         double fine = getFine();
+        int demand = book.getDemand();
 
         // To iterate along the book list and throw exception if same book
         while (booklist.size() > i) {
@@ -163,19 +164,20 @@ public class LibraryCard {
             return false;
         }
 
-        // if none of the booleans give a false return value/i.e. all valid, return true to issue book
-    	return true;
-
-        // Number of days issued
-        int demand = book.getDemand();
         
-        // Setting days issued
-        if (demand == 0) {
-            book.setDays(15);
-        } else {
-            book.setDays(3);
+        
+        
+        // if none of the booleans give a false return value/i.e. all valid, return true to issue book
+    	if (sameBook == false && cardValidity == true && borrowStatus == true && pendingFine == false) {
+            // Setting days issued; only works if book can be issued
+            if (demand == 0) {
+                book.setDays(15);
+            } else {
+                book.setDays(3);
+            } 
         }
 
+        return true;
     }
 
     
