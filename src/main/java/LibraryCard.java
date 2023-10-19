@@ -165,6 +165,17 @@ public class LibraryCard {
 
         // if none of the booleans give a false return value/i.e. all valid, return true to issue book
     	return true;
+
+        // Number of days issued
+        int demand = book.getDemand();
+        
+        // Setting days issued
+        if (demand == 0) {
+            book.setDays(15);
+        } else {
+            book.setDays(3);
+        }
+
     }
 
     
