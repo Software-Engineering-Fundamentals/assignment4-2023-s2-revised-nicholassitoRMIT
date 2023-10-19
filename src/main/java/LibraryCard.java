@@ -96,9 +96,13 @@ public class LibraryCard {
 
     public boolean issueBook(Book book){
         int i = 0;
-        List<Book> booklist = this.borrowed;
+        List<Book> booklist = getBooks();
         int numBorrowed = 0;
-        boolean sameBook = false;
+        // booleans initialized to false
+        boolean sameBook = false; 
+        boolean borrowStatus = false;
+        boolean pendingFine = false;
+        double fine = getFine();
 
         // To iterate along the book list and throw exception if same book
         while (booklist.size() > i) {
@@ -110,7 +114,7 @@ public class LibraryCard {
             } catch (IllegalBookIssueException exception) {
                 System.out.println(exception);
             }
-            
+
             numBorrowed++;
             i++;
         }
@@ -128,23 +132,38 @@ public class LibraryCard {
         // Check if library card is still valid
         Date expiryDate = getExpiryDate();
         Date currentDate = new Date();
-        boolean cardValidity = true;
+        boolean cardValidity = false;
 
-        if (expiryDate.compareTo(currentDate) < 0) { // expiry date is before current date; invalid
-            cardValidity = false;
-        } else if (expiryDate.compareTo(currentDate) > 0) { // expiry date is after current date; valid
+        if (expiryDate.compareTo(currentDate) > 0) { // If expiry date is after current date, it is valid; Otherwise, it is invalid
             cardValidity = true;
-        } else { // expiry date is same as current date; invalid
-            cardValidity = false;
         }
 
+        // Returns false if card is not valid
         if (cardValidity == false) {
             return false;
         }
 
-        // Check if book is available for borrowing
+        // Check for borrow status
+        if (book.getStatus()) { // book is available
+            borrowStatus = true;
+        }
 
+        // Returns false if book is not available for borrowing
+        if (borrowStatus == false) {
+            return false;
+        }
 
+        // Check for status of fine
+        if (fine > 0) {
+            pendingFine = true;
+        }
+
+        // Returns false if there is a pending fine
+        if (pendingFine) {
+            return false;
+        }
+
+        // if none of the booleans give a false return value/i.e. all valid, return true to issue book
     	return true;
     }
 
