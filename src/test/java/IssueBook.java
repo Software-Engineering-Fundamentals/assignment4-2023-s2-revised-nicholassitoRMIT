@@ -44,18 +44,16 @@ public class IssueBook {
     @Test
     @DisplayName("Should return failure if actual number of books is different from expected value")
     void bookNumberTest() {
-        int expected = 4;
+        int expected = 3;
         int actual = 0;
 
         Book book1 = new Book(1, "book1", 0);
         Book book2 = new Book(2, "book2", 0);
         Book book3 = new Book(3, "book3", 1);
-        Book book4 = new Book(4, "book4", 1);
 
         bookList.add(book1);
         bookList.add(book2);
         bookList.add(book3);
-        bookList.add(book4);
 
         // To get actual number of books
         for (int i = 0; i < bookList.size(); i++) {
@@ -113,5 +111,27 @@ public class IssueBook {
         assertEquals(expectedFine, libraryCard.getFine());
     }
 
-    
+    @Test
+    @DisplayName("Checks if IssueBook is working properly")
+    void issueBookTest() {
+        Book book4 = new Book(4, "book4", 1);
+        boolean result = libraryCard.issueBook(book4);
+        boolean expected = true;
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    @DisplayName("Checks for demand of book")
+    void demandtest() {
+        // if 0/low demand, 15 days; if 1/high demand, 3 days
+        int expected = 15;
+        if (book.getID() == 0) {
+            book.setDemand(15);
+        } else {
+            book.setDemand(3);
+        }
+
+        assertEquals(expected, book.getDemand());
+    }
 }
