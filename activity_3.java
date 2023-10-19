@@ -32,22 +32,22 @@ public class Department {
     
     public boolean checkEmployee(int eID) {
 
-	int p=0;
-	for (int i = 0; i < this.employee.size(); i++){
-int check=this.employee.get(i);
+	    int p=0;
+
+	    for (int i = 0; i < this.employee.size(); i++) {
+            int check=this.employee.get(i);
+
             if (check==eID) {
                 p=1;
             }
         }
 
-        if (p==1)
-{
-System.out.println("Employee exists");
-return true;
-}
-else{
-System.out.println("Employee doesn't exists");
-return false;
+        if (p==1) {
+            System.out.println("Employee exists");
+            return true;
+        } else {
+            System.out.println("Employee doesn't exists");
+            return false;
 	    }
     }
 
@@ -55,7 +55,7 @@ return false;
 
     public void assignNew(string temp2, int ID) {
         this.temp1.add(temp2);
-	  this.ID1.add(ID);
+	    this.ID1.add(ID);
     }
 
 
