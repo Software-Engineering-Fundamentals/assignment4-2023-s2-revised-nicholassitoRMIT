@@ -7,7 +7,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import java.time.LocalDate; // changed to localdate
+import java.util.Date;
+import java.time.LocalDate; // added localdate
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 // importing array list function 
@@ -24,11 +25,20 @@ import java.util.ArrayList;
 public class IssueBook {
     private Book book;
     private ArrayList<Book> bookList; 
+    private Date issueDate;
+    private Date expiryDate;
+    private LibraryCard libraryCard;
+    private Student student;
 
     @BeforeEach
     void setUp() {
+        student = new Student("Tester Tester", 12345);
         book = new Book(0, "book", 0);
         bookList = new ArrayList<Book>();
+
+        issueDate = new Date();
+        expiryDate = new Date(System.currentTimeMillis() + (7 * 24 * 60 * 60 * 1000)); // issue plus one week
+        libraryCard = new LibraryCard(student, issueDate, expiryDate, 123);
     }
 
     @Test
@@ -57,7 +67,7 @@ public class IssueBook {
 
     @Test
     @DisplayName("Check if exception is thrown if books being compared are the same")
-    void exceptionTest() {
+    void exceptionTest() throws IllegalBookIssueException {
         Book book1 = new Book(1, "book1", 0);
         Book book2 = new Book(1, "book1", 0);
 
@@ -73,16 +83,14 @@ public class IssueBook {
     @Test
     @DisplayName("Check if library card is valid")
     void libraryCardValidityTest() {
-        LocalDate currentDate = LocalDate.now();
-        LocalDate cardDate = currentDate.minusDays(1);
-        boolean cardValidity = true; // card is assumed to be true at the start
+        boolean cardValidity = true; // card initialized to be valid
+        boolean expected = true;
 
-        // Card should be invalid if date is the same
-        if ((currentDate.compareTo(cardDate) == 0) || (currentDate.compareTo(cardDate) > 0)){
+        if (issueDate == expiryDate) {
             cardValidity = false;
         }
 
-        assertEquals((currentDate.equals(cardDate)), cardValidity, "Only earlier dates than the actual date should be valid");
+        assertEquals(expected, cardValidity, "Only earlier dates than the actual date should be valid");
     }
 
     @Test
@@ -93,6 +101,16 @@ public class IssueBook {
         boolean availability = book.getStatus();
 
         assertEquals(result, availability, "Borrow status is valid if the status is true");
+    }
+
+    @Test
+    @DisplayName("Checks for pending fine")
+    void pendingFineTest() {
+        double fine = 0.0;
+        libraryCard.setFine(fine);
+        double expectedFine = 0.0;
+
+        assertEquals(expectedFine, libraryCard.getFine());
     }
 
     
