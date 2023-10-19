@@ -14,12 +14,12 @@ public class Department {
     
     private ArrayList<String> temp1 = new ArrayList<String>();
 
-    private ArrayList<int> employee = new ArrayList<int>();
+    private ArrayList<Integer> employee = new ArrayList<Integer>();
 
     
     private int ID2;
 
-    private String name;
+    // private String name;
 
     public String getID() {
         return ID2;
@@ -34,7 +34,7 @@ public class Department {
 
 	int p=0;
 	for (int i = 0; i < this.employee.size(); i++){
-check=this.employee.get(i);
+int check=this.employee.get(i);
             if (check==eID) {
                 p=1;
             }
