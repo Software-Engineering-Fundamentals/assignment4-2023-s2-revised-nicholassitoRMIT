@@ -94,7 +94,8 @@ public class Book {
         return status;
     }
 
-    public void setDemand(boolean status) {
+    // Typo, should be setStatus
+    public void setStatus(boolean status) {
         this.status = status;
     }
 

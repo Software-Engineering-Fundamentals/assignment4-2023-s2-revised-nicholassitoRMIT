@@ -96,20 +96,56 @@ public class LibraryCard {
 
     public boolean issueBook(Book book){
         int i = 0;
+        List<Book> booklist = this.borrowed;
         int numBorrowed = 0;
         boolean sameBook = false;
 
-        while (borrowed.size() > i) {
-            if(borrowed.get(i).getID() == book.getID()) {
-                throw new IllegalBookIssueException("Issue Error: The book has already been issued on the library card.");
-            } 
+        // To iterate along the book list and throw exception if same book
+        while (booklist.size() > i) {
+            try {
+                if(booklist.get(i).getID() == book.getID()) {
+                    sameBook = true;
+                    throw new IllegalBookIssueException("Issue Error: The book has already been issued on the library card.");
+                } 
+            } catch (IllegalBookIssueException exception) {
+                System.out.println(exception);
+            }
             
             numBorrowed++;
             i++;
         }
 
+        // Returns false if same book is present
+        if (sameBook == true) {
+            return false;
+        }
 
-    	return false;
+        // Number of books should not be greater than 4
+        if (numBorrowed > 4) {
+            return false;
+        }
+
+        // Check if library card is still valid
+        Date expiryDate = getExpiryDate();
+        Date currentDate = new Date();
+        boolean cardValidity = true;
+
+        if (expiryDate.compareTo(currentDate) < 0) { // expiry date is before current date; invalid
+            cardValidity = false;
+        } else if (expiryDate.compareTo(currentDate) > 0) { // expiry date is after current date; valid
+            cardValidity = true;
+        } else { // expiry date is same as current date; invalid
+            cardValidity = false;
+        }
+
+        if (cardValidity == false) {
+            return false;
+        }
+
+        // Check if book is available for borrowing
+
+
+    	return true;
     }
 
     
